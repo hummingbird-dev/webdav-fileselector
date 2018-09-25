@@ -12,6 +12,11 @@
     ],
     "minimum-stability": "dev",
     "require": {},
+    "autoload-dev": {
+	"psr-4": {
+	    "HummingbirdDev\\WebdavFileselector\\": "src/"
+	}
+    },
     "extra": {
 	"laravel": {
 	    "providers": [
