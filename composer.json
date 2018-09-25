@@ -1,6 +1,9 @@
 {
     "name": "hummingbird-dev/webdav-fileselector",
     "description": "Retrieve directory structure from a WebDAV server for selecting one or more files and folders.",
+    "keywords": ["webdav","laravel"],
+    "homepage": "https://github.com/hummingbird-dev/webdav-fileselector",
+    "licence": "MIT",
     "authors": [
         {
             "name": "Sebastian Mieruch",
