@@ -1,0 +1,26 @@
+.SPA_init {
+    background-color: #636b6f;
+    color: #ffffff;
+    margin-top: 80px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+}
+
+.glyphicon-refresh-animate {
+    -animation: spin .7s infinite linear;
+    -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+    from { -webkit-transform: rotate(0deg);}
+    to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+    from { transform: scale(1) rotate(0deg);}
+    to { transform: scale(1) rotate(360deg);}
+}
+
+.navbar-custom {
+    background-color: #223145!important;
+}

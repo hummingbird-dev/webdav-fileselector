@@ -1,0 +1,7 @@
+<?php
+
+Route::get('getb2drop', 'hummingbirddev\getb2drop\Getb2dropController@client');
+Route::post('getb2drop', 'hummingbirddev\getb2drop\Getb2dropController@getb2drop');
+
+
+?>
