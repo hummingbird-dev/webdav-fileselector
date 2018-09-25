@@ -63,3 +63,8 @@ Publish resources from your root folder:
 php artisan vendor:publish --provider="HummingbirdDev\\WebdavFileselector\\WebdavFileselectorServiceProvider"
 
 ```
+
+
+## Usage
+
+... coming soon ...
