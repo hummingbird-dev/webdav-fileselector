@@ -75,19 +75,19 @@
 				<div class="form-group">
 				    <label for="username" class="col-md-4 control-label">username</label>
 				    <div class="col-md-6">
-					<input id="username" type="text" class="form-control" name="username" value="abfd3609-6157-4043-94b3-4ff6287f78ed" required autofocus disabled>
+					<input id="username" type="text" class="form-control" name="username" value="" required autofocus>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <label for="password" class="col-md-4 control-label">password</label>
 				    <div class="col-md-6">
-					<input id="password" type="password" class="form-control" name="password" value="BGpgP-YcDAq-bWoAa-F2bi4-fgTZ3" required autofocus disabled>
+					<input id="password" type="password" class="form-control" name="password" value="" required autofocus>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <label for="url" class="col-md-4 control-label">URL</label>
 				    <div class="col-md-6">
-					<input id="url" type="text" class="form-control" name="url" value='https://b2drop.eudat.eu/remote.php/webdav/' required autofocus disabled>
+					<input id="url" type="text" class="form-control" name="url" value='' required autofocus>
 				    </div>
 				</div>
 			    </form>
