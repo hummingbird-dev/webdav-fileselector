@@ -86,6 +86,10 @@ Now insert your WebDAV username and password as well as the URL of the
 WebDAV server. In this example I'm connecting with B2DROP from EUDAT, i.e. https://b2drop.eudat.eu/remote.php/webdav/.
 
 After clicking on *Get* the *webdav-fileselector* will grab a list of
-files and folders of your WebDAV storage. The [hummingbird-treeview](https://github.com/hummingbird-dev/hummingbird-treeview) package is used to display the data.
+files and folders of your WebDAV storage. The [hummingbird-treeview](https://github.com/hummingbird-dev/hummingbird-treeview) package is used to display the data as a treeview structure.
 
 ![alt text](./webdav-fileselector_client_1.png "webdav-fileselector client")
+
+Click on the folder symbol to open the folder and select one or more files or folders.
+
+![alt text](./webdav-fileselector_client_2.png "webdav-fileselector client")
