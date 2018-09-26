@@ -24,6 +24,8 @@ A Laravel package for showing and selecting files and folders of a WebDAV server
 - font-awesome
 - hummingbird-dev/hummingbird-treeview
 
+This means that these libraries (or parts of them) are included in the
+webdav-fileselector package. Thus no download / installation of these libraries is needed.
 
 ## Getting started
 ### Installation

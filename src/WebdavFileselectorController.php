@@ -12,7 +12,22 @@ class WebdavFileselectorController extends Controller
 
     public function get()
     {
-        return view('webdav-fileselector::client');
+        //load Environment Variable as Proxy if $docker=true in .env
+        //edit the name of the Environment Variable
+        //here the name is WEBODV_PATH
+        $docker = config("app.docker");
+        $proxy = "";
+        if ($docker) {
+            $proxy = shell_exec('if [ "" == "$WEBODV_PATH" ]; then printf ""; else  printf $WEBODV_PATH; fi');
+        }
+        /////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        
+        //include your webdav credentials in .env and /conf/app.php
+        $username = config("app.webdav_username");
+        $password = config("app.webdav_password");
+        $url = config("app.webdav_url");
+        return view('webdav-fileselector::client',compact('proxy','username','password','url'));
     }
 
 
@@ -23,16 +38,16 @@ class WebdavFileselectorController extends Controller
         $b2drop_password = $request->password;
         $b2drop_url = $request->url;
 
+        
         $headers = array(
             'Content-Type: text/xml',
-            //'Content-Type: application/json',
             'Depth:infinity'
             //'Depth:1'
         );
 
             $curl = curl_init();
             curl_setopt($curl, CURLOPT_URL, 'https://b2drop.eudat.eu/remote.php/webdav/');
-            //curl_setopt($curl, CURLOPT_URL, 'https://b2drop.eudat.eu/remote.php/webdav/SDN_test_Elba.Data');
+            //curl_setopt($curl, CURLOPT_URL, 'https://b2drop.eudat.eu/remote.php/webdav/data.dat');
 
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PROPFIND" );
             curl_setopt($curl, CURLOPT_USERPWD, $b2drop_username . ":" . $b2drop_password );

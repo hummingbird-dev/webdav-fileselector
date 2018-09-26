@@ -8,25 +8,25 @@
         <title>webdav-fileselector</title>
 
 	<!-- Font Awesome-->
-	<!-- <link rel="stylesheet" href="{ url("css/webdav-fileselector-css/Font-Awesome-master/web-fonts-with-css/css/fontawesome-all.min.css") }}"> -->
-	<link rel="stylesheet" href="{{ url("css/webdav-fileselector-css/font-awesome-custom/web-fonts-with-css/css/fontawesome-all.min.css") }}">
-	<!-- <link rel="stylesheet" href="{{ url("css/webdav-fileselector-css/fontawesome-all.min.css") }}"> -->
-
+	<link rel="stylesheet" href="{{ $proxy . "/css/webdav-fileselector-css/font-awesome-custom/web-fonts-with-css/css/fontawesome-all.min.css" }}">
+	
 	<!-- Bootstrap CSS-->
-	<link rel="stylesheet" href="{{ url("css/webdav-fileselector-css/bootstrap-3.3.7-dist/css/bootstrap.min.css") }}">
-
-	<!-- custom css -->
-	<link rel="stylesheet" href="{{ url("css/webdav-fileselector-css/webdav-fileselector.css") }}">
+	<link rel="stylesheet" href="{{ $proxy . "/css/webdav-fileselector-css/bootstrap-3.3.7-dist/css/bootstrap.min.css" }}">
 	
 	<!-- jQuery -->
-	<script src="{{ url("js/webdav-fileselector-js/jquery-3.3.1.min.js") }}"></script>
-	<!-- <script src="{{ url("js/getb2drop_js/jquery.min.js") }}"></script> -->
+	<script src="{{ $proxy . "/js/webdav-fileselector-js/jquery-3.3.1.min.js" }}"></script>
 
 	<!-- Bootstrap JS -->
-	<script src="{{ url("css/webdav-fileselector-css/bootstrap-3.3.7-dist/js/bootstrap.min.js") }}"></script>
+	<script src="{{ $proxy . "/css/webdav-fileselector-css/bootstrap-3.3.7-dist/js/bootstrap.min.js" }}"></script>
 
 	<!-- hummingbird-treeview -->
-	<link rel="stylesheet" href="{{ url("css/webdav-fileselector-css/hummingbird-treeview.css") }}">
+	<link rel="stylesheet" href="{{ $proxy . "/css/webdav-fileselector-css/hummingbird-treeview.css" }}">
+
+	<!-- custom css -->
+	<link rel="stylesheet" href="{{ $proxy . "/css/webdav-fileselector-css/webdav-fileselector.css" }}">
+
+	<!-- custom js -->
+	<script src="{{ $proxy . "/js/webdav-fileselector-js/webdav-fileselector.js" }}"></script>
 
 	
 	
@@ -75,21 +75,22 @@
 				<div class="form-group">
 				    <label for="username" class="col-md-4 control-label">username</label>
 				    <div class="col-md-6">
-					<input id="username" type="text" class="form-control" name="username" value="" required autofocus>
+					<input id="username" type="text" class="form-control" name="username" value="{{ $username }}" required autofocus>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <label for="password" class="col-md-4 control-label">password</label>
 				    <div class="col-md-6">
-					<input id="password" type="password" class="form-control" name="password" value="" required autofocus>
+					<input id="password" type="password" class="form-control" name="password" value="{{ $password }}" required autofocus>
 				    </div>
 				</div>
 				<div class="form-group">
 				    <label for="url" class="col-md-4 control-label">URL</label>
 				    <div class="col-md-6">
-					<input id="url" type="text" class="form-control" name="url" value='' required autofocus>
+					<input id="url" type="text" class="form-control" name="url" value="{{ $url }}" required autofocus>
 				    </div>
 				</div>
+				<input id="proxy" type="hidden" class="form-control" name="proxy" value="{{ $proxy }}" required autofocus>
 			    </form>
 			    <br>
 			    <button class="btn btn-block btn-responsive btn-primary" id="getb2drop_button" style="font-size: 42px">Get</button>	    							   
@@ -143,62 +144,6 @@
 
 
 
-	<script>
-	 //get form entries
-	 $("#getb2drop_button").on("click", function(){
-	     $(".getdata").hide();
-	     $("#waiting_anim").show();	     
-	     //console.log("clicked");
-	     var data = {"username" : $("#username").val(), "password" : $("#password").val(), "url" : $("#url").val()};
-	     //console.log(data);
-	     //call ajax
-	     getb2drop_ajax(data);
-	 });
-
-	 //ajax
-	 function getb2drop_ajax(data) {
- 	     $.ajax({
- 		 type: "POST",
- 		 url: "{{ url('/webdav-fileselector') }}",
- 		 data: data,
- 		 dataType: "json",
- 		 func: "getb2drop_complete",                                 
- 		 cache: "false",
- 		 error:   function(data){
- 		     //console.log("AJAX ERROR");
- 		     //console.log(data)
- 		 },
- 		 success: function(data){
- 		     //console.log("AJAX SUCCESS");
- 		     //console.log(data)
- 		 }
- 	     });
-	 }
-
-	 //ajax complete
-	 $(document).ajaxComplete(function(e,xhr,settings){
-	     if (settings.func=="getb2drop_complete") {
-		 //console.log(xhr.responseText)
-		 var result = JSON.parse(xhr.responseText);
-		 $("#waiting_anim").hide();	     
-		 $(".result").show();
-		 $("#result").html(result.join(" "));
-		 $.getScript("{{ url("js/webdav-fileselector-js/hummingbird-treeview.js") }}").done(function(){
-		     $(document).ready(function() {
-			 $.fn.hummingbird.defaults.collapsedSymbol= "fa-folder";
-			 $.fn.hummingbird.defaults.expandedSymbol= "fa-folder-open";
-			 $("#treeview").hummingbird();
-			 $("#treeview").on("CheckUncheckDone", function(){
-			     var List = [];
-			     $("#treeview").hummingbird("getChecked",{attr:"text",list:List,onlyEndNodes:true});
-			     $("#selection").html(List.join("<br>"));
-			     //var L = List.length;
-			 });
-		     });
-		 });
-	     }
-	 });
-	</script>
 
 
 
