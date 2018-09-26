@@ -78,3 +78,7 @@ php artisan serve
 
 and navigate to http://localhost:8000/webdav-fileselector
 
+You will see the client template, which can be edited at "/resources/views/hummingbird-dev/client.blade.php".
+
+![alt text](./webdav-fileselector_client.png "webdav-fileselector client")
+
