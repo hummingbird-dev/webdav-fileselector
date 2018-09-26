@@ -69,4 +69,12 @@ php artisan vendor:publish --provider="HummingbirdDev\\WebdavFileselector\\Webda
 
 ## Usage
 
-... coming soon ...
+Start a local development server
+
+``` php
+php artisan serve
+
+```
+
+and navigate to http://localhost:8000/webdav-fileselector
+
