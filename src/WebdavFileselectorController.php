@@ -62,7 +62,8 @@ class WebdavFileselectorController extends Controller
             $result = curl_exec($curl);
             //Log::info(print_r($result,1));            
             $xml = simplexml_load_string($result);
-            //$xml = simplexml_load_file("/var/www/html/Log/xml.xml");
+            //for offline testing
+            $xml = simplexml_load_file("/var/www/html/Log/xml.xml");
 
 
         $data = array(
@@ -105,25 +106,25 @@ class WebdavFileselectorController extends Controller
             //get number of folders, i.e. depth in the tree
             preg_match_all('/[^\/]+/',$this_file,$match);
             $num = count($match[0]);
-            log::info("this_file= " . $this_file);
-            log::info("match= " . print_r($match,1));
-            log::info("num= " . $num);
+            //log::info("this_file= " . $this_file);
+            //log::info("match= " . print_r($match,1));
+            //log::info("num= " . $num);
             $hyphen = "";
             for ($i=3;$i<=$num;$i++) {
                 $hyphen = $hyphen . "-";
             }
                 
-
+            
             
             if ($this_type == "folder") {
                 //$data[] = '<li id="item1" data-id="test1">' . $hyphen . $match_folder[0] . '</li>';
-                $data[] = '<li>' . $hyphen . $match_folder[0] . '</li>'; 
+                $data[] = '<li data-id="' . $this_file  . '">' . $hyphen . $match_folder[0] . '</li>'; 
             }
 
             
             if ($this_type == "file") {
                 //$data[] = '<li id="item1" data-id="test1">' . $hyphen . $match_file[0] . '</li>';
-                $data[] = '<li>' . $hyphen . $match_file[0] . '</li>'; 
+                $data[] = '<li data-id="' . $this_file  . '">' . $hyphen . $match_file[0] . '</li>'; 
             }
 
 
