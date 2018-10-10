@@ -95,4 +95,37 @@ Click on the folder symbol to open the folder and select one or more files or fo
 ![alt text](./doc/webdav-fileselector_client_2.png "webdav-fileselector client")
 
 
-### Automatization
+
+## Automatization
+
+It is possible to jump over the input form in the client by
+automatically populating the fields and triggering the button. To this
+the *.env* file in your project's root folder and the */conf/app.php*
+file have to be edited. Add the webdav credentials to your *.env*:
+
+``` php
+...
+webdav_username = 123xyz
+webdav_password = hgTzH-HZTGh-KMiuj-MhrDf
+webdav_url = https://b2drop.eudat.eu/remote.php/webdav/
+webdav_auto = true
+...
+
+```
+
+Now, add the env helper to your */conf/app.php*:
+
+``` php
+...
+'webdav_username' => env('webdav_username',''),
+'webdav_password' => env('webdav_password',''),
+'webdav_url' => env('webdav_url',''),
+'webdav_auto' => env('webdav_auto', false),
+
+...
+```
+
+If these credentials are set, the client form will automatically be
+populated. If the *webdav_auto* variable is set to *true*, the client
+form will be skipped and the connection to the WebDAV server will
+automatically be established.
