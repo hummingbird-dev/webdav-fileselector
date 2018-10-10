@@ -1,5 +1,6 @@
 $(document).ready(function() {
     //get form entries
+    //console.log("webdav_auto= " + $webdav_auto )
     var proxy = $("#proxy").val();
     $("#getb2drop_button").on("click", function(){
 	$(".getdata").hide();

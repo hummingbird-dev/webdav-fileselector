@@ -28,11 +28,13 @@ class WebdavFileselectorController extends Controller
         $password = config("app.webdav_password");
         $url = config("app.webdav_url");
 
+        $webdav_auto = config("app.webdav_auto");
+        
         //this is for development
         //return view('webdav-fileselector::client',compact('proxy','username','password','url'));
 
         //this is for production, so that the user can use the template
-        return view('hummingbird-dev.webdav-fileselector.client',compact('proxy','username','password','url'));
+        return view('hummingbird-dev.webdav-fileselector.client',compact('proxy','username','password','url','webdav_auto'));
     }
 
 

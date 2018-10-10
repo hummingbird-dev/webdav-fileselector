@@ -94,3 +94,5 @@ Click on the folder symbol to open the folder and select one or more files or fo
 
 ![alt text](./doc/webdav-fileselector_client_2.png "webdav-fileselector client")
 
+
+### Automatization
