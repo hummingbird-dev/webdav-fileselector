@@ -33,6 +33,7 @@ $(document).ready(function() {
     $(document).ajaxComplete(function(e,xhr,settings){
 	if (settings.func=="getb2drop_complete") {
 	    var result = JSON.parse(xhr.responseText);
+	    console.log(result)
 	    $("#waiting_anim").hide();	     
 	    $(".result").show();
 	    $("#result").html(result.join(" "));

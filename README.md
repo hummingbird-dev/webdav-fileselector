@@ -134,6 +134,8 @@ automatically be established.
 
 ## External usage
 
+### With HTML form client
+
 There might be cases, where you want to provide the
 *webdav-fileselector* to external users as a kind of API.  That means,
 your Laravel application including the *webdav-fileselector* is
@@ -151,7 +153,7 @@ can load all needed CSS and JavaScript. That means, change Laravel
 syntax to normal HTML. Probably you have also to adapt the
 paths. However, all CSS and JavaScript loaded here is included in the
 *webdav-fileselector* package. Now look at the form and adapt the
-*value={{ ... }}* parts. Either leave them empty or populate them by
+*value="{{ ... }}"* parts. Either leave them empty or populate them by
 your own methods. At the bottom of the *client.blade.php* file you
 will find a small JavaScript part, which can be removed or has to be
 adapted, if automatization (see above) will be used.
@@ -180,5 +182,91 @@ function getb2drop_ajax(data) {
    url: 'https://example.com/webdav-fileselector',
    ...
 
+``` 
+
+Don't forget to adapt possibly the path to load the
+*hummingbird-treeview* in the JavaScript file *webdav-fileselector.js*:
+
+``` javascript
+$(document).ajaxComplete(function(e,xhr,settings){
+   if (settings.func=="getb2drop_complete") {
+      var result = JSON.parse(xhr.responseText);
+      $("#waiting_anim").hide();	     
+      $(".result").show();
+      $("#result").html(result.join(" "));
+      $.getScript(proxy + '/js/webdav-fileselector-js/hummingbird-treeview.js').done(function(){
+
+
+```
+
+
+
+
+### Without HTML form client
+
+It is also possible to use the *webdav-fileselector* from an external
+site automatically without using the HTML form. However we still want
+to use here the *hummingbird-treeview* package to display the WebDAV
+directory structure. That means you still need to load all the CSS and
+JavaScript shown in the *client.blade.php* similar to above. So, what
+you essentially need is the *client.blade.php* without the whole HTML form part and
+the *webdav-fileselctor.js*. The workflow
+would look like this. A user comes to the external website and
+navigates to e.g. *https://example.com/webdav-fileselector*. Because
+the user is logged in, the application knows the user's WebDAV
+credentials and pushes these to JavaScript. Now in your JavaScript you
+create an object, which receives the credentials and will be passed to the
+AJAX function.
+
+``` javascript
+var data = {"username" : your_webdav_user_name, "password" : your_webdav_password, "url" : your_webdav_url};
+getb2drop_ajax(data);
+
+```
+
+The result is then shown in your HTML.
+
+
+### Bare-bones
+
+Finally a running *webdav-fileselector* on a public server can be
+queried by a minimal HTTP POST request. In your external website you
+need the following AJAX snippet:
+
+``` javascript
+var data = {"username" : your_webdav_user_name, "password" : your_webdav_password, "url" : your_webdav_url};
+
+$.ajax({
+   type: "POST",
+   url: 'https://example.com/webdav-fileselector',
+   data: data,
+   dataType: "json",
+   func: "getb2drop_complete",                                 
+   cache: "false",
+});
+
+$(document).ajaxComplete(function(e,xhr,settings){
+   if (settings.func=="getb2drop_complete") {
+      var result = JSON.parse(xhr.responseText);
+	  console.log(result)
+   }
+});
+
+```
+
+The response is the users WebDAV directory structure formatted to be usable with the *hummingbird-treeview*:
+
+``` html
+<div class="hummingbird-treeview-converter" data-height="400px" data-scroll="true">
+<li data-id="/remote.php/webdav/">webdav/</li>
+<li data-id="/remote.php/webdav/CDI-list-export.zip">-CDI-list-export.zip</li>
+<li data-id="/remote.php/webdav/DIVAnd-WebODV3.ipynb">-DIVAnd-WebODV3.ipynb</li>
+<li data-id="/remote.php/webdav/Documents/">-Documents/</li>
+<li data-id="/remote.php/webdav/Documents/Example.odt">--Example.odt</li>
+<li data-id="/remote.php/webdav/Photos/">-Photos/</li>
+<li data-id="/remote.php/webdav/Photos/Paris.jpg">--Paris.jpg</li>
+<li data-id="/remote.php/webdav/Photos/San%20Francisco.jpg">--San%20Francisco.jpg</li>
+<li data-id="/remote.php/webdav/Photos/Squirrel.jpg">--Squirrel.jpg</li>
+</div>
 ```
 

@@ -147,7 +147,7 @@
 	 $(document).ready(function() {
 	     var webdav_auto = {{ $webdav_auto }};
 	     if (webdav_auto) {
-		 $("#getb2drop_button").trigger("click");
+		 $("#getb2drop_button").trigger("click")
 	     }
 	 });
 	</script>
