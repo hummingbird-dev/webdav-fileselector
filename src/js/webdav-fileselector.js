@@ -49,9 +49,19 @@ $(document).ready(function() {
 		    });
 		    //search
 		    $("#treeview").hummingbird("search",{treeview_container:"treeview_container", search_input:"search_input", search_output:"search_output", search_button:"search_button", scrollOffset:-515, onlyEndNodes:false});
-		    //use treeview functionality
-		    //filtering
+
+		    //use optional treeview functionality
+		    //------------------get paths---------------------------------------//
+		    $("#treeview").on("CheckUncheckDone", function(){
+			var Paths = [];
+			$("#treeview").hummingbird("getChecked",{attr:"data-id",list:Paths,onlyEndNodes:true});
+			console.log(Paths)
+		    });
+		    //------------------get paths---------------------------------------//
+
+		    //------------------filtering---------------------------------------//
 		    //$("#treeview").hummingbird("filter",{str: ".txt|.odv|.jpg|.zip"});
+		    //------------------filtering---------------------------------------//
 		});
 	    });
 	}

@@ -86,14 +86,67 @@ Now insert your WebDAV username and password as well as the URL of the
 WebDAV server. In this example I'm connecting with B2DROP from EUDAT, i.e. https://b2drop.eudat.eu/remote.php/webdav/.
 
 After clicking on *Get* the *webdav-fileselector* will grab a list of
-files and folders of your WebDAV storage. The [hummingbird-treeview](https://github.com/hummingbird-dev/hummingbird-treeview) package is used to display the data as a treeview structure.
+files and folders of your WebDAV storage. The [hummingbird-treeview](https://github.com/hummingbird-dev/hummingbird-treeview) package is used to display the data as a treeview structure and provides a convenient search function.
 
 ![alt text](./doc/webdav-fileselector_client_1.png "webdav-fileselector client")
 
-Click on the folder symbol to open the folder and select one or more files or folders.
+Click on the folder symbol to open the folder and select one or more files or folders. Or use the search function
+to directly search for items.
 
 ![alt text](./doc/webdav-fileselector_client_2.png "webdav-fileselector client")
 
+The selected files are now shown in the list under "Selected". Of
+course, that's not all, now you want to further process the selected
+files, which will be discussed in the next section.
+
+
+## Advanced usage
+
+The *webdav-fileselector* uses the
+[hummingbird-treeview](https://github.com/hummingbird-dev/hummingbird-treeview)
+package, thus all methods from the *hummingbird-treeview* are
+available.  In the */src/js/webdav-fileselctor.js* file the treeview
+control starts with defining options of the treeview and the
+initialization:
+
+``` javascript
+$.fn.hummingbird.defaults.collapsedSymbol= "fa-folder";
+$.fn.hummingbird.defaults.expandedSymbol= "fa-folder-open";
+$("#treeview").hummingbird();
+...
+
+``` 
+
+Further below the functionality to retrieve the checked items as
+well as the search function are implemented. Then there are several
+commented functions, which can be uncommented for usage. 
+
+### Get paths of selected files
+
+The full paths of the selected files are stored in the *data-id* of
+each treeview node. Thus if you want to download the files from the
+WebDAV server you need these paths, which are available in the *Paths* array:
+
+``` javascript
+$("#treeview").on("CheckUncheckDone", function(){
+   var Paths = [];
+   $("#treeview").hummingbird("getChecked",{attr:"data-id",list:Paths,onlyEndNodes:true});
+   console.log(Paths)
+});
+
+```
+
+### Restrict selection to one file
+
+
+
+
+By default, the full WebDAV directory and all files are shown. It is
+possible to select one or more files, whole folders or even all
+files. This is great, however not always that what we want. For
+instance many applications allow only to select exactly one single
+file. Another common case is that e.g. only image files of type .jpg
+should be shown.
 
 
 ## Automatization
