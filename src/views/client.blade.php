@@ -110,6 +110,19 @@
 			<div class="col-sm-6 text-center">
 			    <h2><u>Private workspace</u></h2>
 			    <br>
+			    <div class="dropdown">
+				<div class="input-group stylish-input-group">
+				    <input id="search_input" type="text" class="form-control" placeholder="Search" onclick="this.select()">
+				    <span class="input-group-addon" style="border-left:0">
+					<button type="submit" id="search_button">
+					    <span class="glyphicon glyphicon-search"></span>
+					</button>
+				    </span>
+				    <ul class="dropdown-menu h-scroll" id="search_output">
+				    </ul>
+				</div>
+			    </div>
+			    <br>
 			    <span class="text-left" id="result">
 			    </span>
 			</div>
@@ -142,16 +155,16 @@
 			    
 	</div>
 
-
-	<script>
-	 $(document).ready(function() {
-	     var webdav_auto = {{ $webdav_auto }};
-	     if (webdav_auto) {
-		 $("#getb2drop_button").trigger("click")
-	     }
-	 });
-	</script>
-
+	@if ($webdav_auto)
+	    <script>
+	     $(document).ready(function() {
+		 var webdav_auto = {{ $webdav_auto }};
+		 if (webdav_auto) {
+		     $("#getb2drop_button").trigger("click")
+		 }
+	     });
+	    </script>
+	@endif
 
 
 

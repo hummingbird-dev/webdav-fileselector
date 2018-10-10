@@ -120,13 +120,13 @@ class WebdavFileselectorController extends Controller
             
             if ($this_type == "folder") {
                 //$data[] = '<li id="item1" data-id="test1">' . $hyphen . $match_folder[0] . '</li>';
-                $data[] = '<li data-id="' . $this_file  . '">' . $hyphen . $match_folder[0] . '</li>'; 
+                $data[] = '<li data-id="' . $this_file  . '">' . $hyphen . urldecode($match_folder[0]) . '</li>'; 
             }
 
             
             if ($this_type == "file") {
                 //$data[] = '<li id="item1" data-id="test1">' . $hyphen . $match_file[0] . '</li>';
-                $data[] = '<li data-id="' . $this_file  . '">' . $hyphen . $match_file[0] . '</li>'; 
+                $data[] = '<li data-id="' . $this_file  . '">' . $hyphen . urldecode($match_file[0]) . '</li>'; 
             }
 
 
