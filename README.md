@@ -125,7 +125,7 @@ commented functions, which can be uncommented for usage.
 
 The full paths of the selected files are stored in the *data-id* of
 each treeview node. Thus if you want to download the files from the
-WebDAV server you need these paths, which are available in the *Paths* array:
+WebDAV server you need these paths, which are available in the *Paths* array of this function:
 
 ``` javascript
 $("#treeview").on("CheckUncheckDone", function(){
@@ -138,15 +138,56 @@ $("#treeview").on("CheckUncheckDone", function(){
 
 ### Restrict selection to one file
 
+To restrict the selection to only a single file, we must first disable
+the functionality of checking whole folders by using this option
+before the initialization of the treeview:
+
+``` javascript
+...
+$.fn.hummingbird.defaults.checkboxesGroups= "disabled";
+$("#treeview").hummingbird();
+...
+
+```
+
+Then we need to uncheck the old selection after every new selection:
+
+``` javascript
+var Ids = [];
+$("#treeview").on("CheckUncheckDone", function(){
+   //uncheck old selection
+   if (Ids != "") {
+      $.each(Ids, function(i,e) {
+         $("#treeview").hummingbird("uncheckNode",{attr:"id",name: '"' + e + '"',collapseChildren:false});
+      });
+   }
+
+   Ids = [];
+   $("#treeview").hummingbird("getChecked",{attr:"id",list:Ids,onlyEndNodes:true});
+});
+
+```
+
+### Filtering
+
+A common case is that only special file types are shown, e.g. image
+files of type .jpg etc. Therefor we can use the *filter* method to
+removes all files, which NOT match a search pattern.  Use "|" as a
+seperator of search strings.  The *filter* method uses the *OR*
+logic. For instance if *str=".txt|.jpg|test"* then only files, which
+contain *.txt* or *.jpg* or *test* are shown in the treeview. Folders
+are not affected by the *filter*:
+  
+``` javascript
+$("#treeview").hummingbird("filter",{str: ".txt|.odv|.jpg|.zip"});
+
+```
+
+There are many more options provided by the *hummingbird-treeview*,
+e.g. disabling the checking of certain nodes / files or automatically
+checking nodes. Use this functionality for your needs.
 
 
-
-By default, the full WebDAV directory and all files are shown. It is
-possible to select one or more files, whole folders or even all
-files. This is great, however not always that what we want. For
-instance many applications allow only to select exactly one single
-file. Another common case is that e.g. only image files of type .jpg
-should be shown.
 
 
 ## Automatization

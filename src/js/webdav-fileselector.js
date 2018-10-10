@@ -27,8 +27,6 @@ $(document).ready(function() {
  	});
     }
 
-
-
     //ajax complete
     $(document).ajaxComplete(function(e,xhr,settings){
 	if (settings.func=="getb2drop_complete") {
@@ -38,8 +36,15 @@ $(document).ready(function() {
 	    $("#result").html(result.join(" "));
 	    $.getScript(proxy + '/js/webdav-fileselector-js/hummingbird-treeview.js').done(function(){
 		$(document).ready(function() {
+		    //define symbols for the groups
 		    $.fn.hummingbird.defaults.collapsedSymbol= "fa-folder";
 		    $.fn.hummingbird.defaults.expandedSymbol= "fa-folder-open";
+
+		    //-------------------disable checking of whole groups------------------------//
+		    //$.fn.hummingbird.defaults.checkboxesGroups= "disabled";
+		    //-------------------disable checking of whole groups------------------------//
+
+		    //initialization
 		    $("#treeview").hummingbird();
 		    //get checked
 		    $("#treeview").on("CheckUncheckDone", function(){
@@ -50,15 +55,47 @@ $(document).ready(function() {
 		    //search
 		    $("#treeview").hummingbird("search",{treeview_container:"treeview_container", search_input:"search_input", search_output:"search_output", search_button:"search_button", scrollOffset:-515, onlyEndNodes:false});
 
-		    //use optional treeview functionality
+
+		    
+
+		    //-------------------###################################----------------------//
+		    //-------------------use optional treeview functionality----------------------//
+		    //-------------------###################################----------------------//
+
+		    
+
 		    //------------------get paths---------------------------------------//
-		    $("#treeview").on("CheckUncheckDone", function(){
-			var Paths = [];
-			$("#treeview").hummingbird("getChecked",{attr:"data-id",list:Paths,onlyEndNodes:true});
-			console.log(Paths)
-		    });
+		    // $("#treeview").on("CheckUncheckDone", function(){
+		    // 	var Paths = [];
+		    // 	$("#treeview").hummingbird("getChecked",{attr:"data-id",list:Paths,onlyEndNodes:true});
+		    // 	console.log(Paths)
+		    // });
 		    //------------------get paths---------------------------------------//
 
+
+
+		    
+		    //------------------get ids and uncheck old selection---------------//
+		    //------------------to restrict selection to one item---------------//
+		    //------------------use the "checkboxesGroups" option above!--------//
+		    // var Ids = [];
+		    // $("#treeview").on("CheckUncheckDone", function(){
+		    // 	//uncheck old selection
+		    // 	if (Ids != "") {
+		    // 	    $.each(Ids, function(i,e) {
+		    // 		$("#treeview").hummingbird("uncheckNode",{attr:"id",name: '"' + e + '"',collapseChildren:false});
+		    // 	    });
+		    // 	}
+			
+		    // 	Ids = [];
+		    // 	$("#treeview").hummingbird("getChecked",{attr:"id",list:Ids,onlyEndNodes:true});
+		    // });
+		    //------------------get ids and uncheck old selection---------------//
+
+			
+
+
+		    
 		    //------------------filtering---------------------------------------//
 		    //$("#treeview").hummingbird("filter",{str: ".txt|.odv|.jpg|.zip"});
 		    //------------------filtering---------------------------------------//
