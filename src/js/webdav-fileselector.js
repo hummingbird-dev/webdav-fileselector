@@ -33,7 +33,6 @@ $(document).ready(function() {
     $(document).ajaxComplete(function(e,xhr,settings){
 	if (settings.func=="getb2drop_complete") {
 	    var result = JSON.parse(xhr.responseText);
-	    console.log(result)
 	    $("#waiting_anim").hide();	     
 	    $(".result").show();
 	    $("#result").html(result.join(" "));
@@ -42,11 +41,17 @@ $(document).ready(function() {
 		    $.fn.hummingbird.defaults.collapsedSymbol= "fa-folder";
 		    $.fn.hummingbird.defaults.expandedSymbol= "fa-folder-open";
 		    $("#treeview").hummingbird();
+		    //get checked
 		    $("#treeview").on("CheckUncheckDone", function(){
 			var List = [];
 			$("#treeview").hummingbird("getChecked",{attr:"text",list:List,onlyEndNodes:true});
 			$("#selection").html(List.join("<br>"));
 		    });
+		    //search
+		    $("#treeview").hummingbird("search",{treeview_container:"treeview_container", search_input:"search_input", search_output:"search_output", search_button:"search_button", scrollOffset:-515, onlyEndNodes:false});
+		    //use treeview functionality
+		    //filtering
+		    //$("#treeview").hummingbird("filter",{str: ".txt|.odv|.jpg|.zip"});
 		});
 	    });
 	}
