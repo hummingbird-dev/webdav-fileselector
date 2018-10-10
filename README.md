@@ -11,10 +11,10 @@ A Laravel package for showing and selecting files and folders of a WebDAV server
 - Provides a sophisticated client template using the [hummingbird-treeview](https://github.com/hummingbird-dev/hummingbird-treeview) package
 - Display files and folders in a hierarchical tree structure
 - Different options can be enabled / disabled, e.g. 
- - select only one file
- - select one or more files
- - select whole folders
- - select all
+  - select only one file
+  - select one or more files
+  - select whole folders
+  - select all
 - Filter for file types (e.g. .jpg, .txt) and arbitrary patterns
 - Convenient search function
 - ... and many more
