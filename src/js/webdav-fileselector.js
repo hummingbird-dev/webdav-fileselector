@@ -1,13 +1,10 @@
 $(document).ready(function() {
     //get form entries
-    //console.log("webdav_auto= " + $webdav_auto )
     var proxy = $("#proxy").val();
     $("#getb2drop_button").on("click", function(){
 	$(".getdata").hide();
 	$("#waiting_anim").show();	     
-	//console.log("clicked");
 	var data = {"username" : $("#username").val(), "password" : $("#password").val(), "url" : $("#url").val()};
-	//console.log(data);
 	//call ajax
 	getb2drop_ajax(data);
     });
@@ -23,11 +20,9 @@ $(document).ready(function() {
  	    cache: "false",
  	    error:   function(data){
  		//console.log("AJAX ERROR");
- 		//console.log(data)
  	    },
  	    success: function(data){
  		//console.log("AJAX SUCCESS");
- 		//console.log(data)
  	    }
  	});
     }
@@ -37,7 +32,6 @@ $(document).ready(function() {
     //ajax complete
     $(document).ajaxComplete(function(e,xhr,settings){
 	if (settings.func=="getb2drop_complete") {
-	    //console.log(xhr.responseText)
 	    var result = JSON.parse(xhr.responseText);
 	    $("#waiting_anim").hide();	     
 	    $(".result").show();
@@ -51,7 +45,6 @@ $(document).ready(function() {
 			var List = [];
 			$("#treeview").hummingbird("getChecked",{attr:"text",list:List,onlyEndNodes:true});
 			$("#selection").html(List.join("<br>"));
-			//var L = List.length;
 		    });
 		});
 	    });

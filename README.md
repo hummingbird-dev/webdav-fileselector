@@ -113,7 +113,7 @@ webdav_auto = true
 
 ```
 
-Now, add the env helper to your */conf/app.php*:
+Now, add the env helpers to your */conf/app.php*:
 
 ``` php
 ...
@@ -129,3 +129,56 @@ If these credentials are set, the client form will automatically be
 populated. If the *webdav_auto* variable is set to *true*, the client
 form will be skipped and the connection to the WebDAV server will
 automatically be established.
+
+
+
+## External usage
+
+There might be cases, where you want to provide the
+*webdav-fileselector* to external users as a kind of API.  That means,
+your Laravel application including the *webdav-fileselector* is
+running on a public server. Now, a developer from another website can
+make use of the functionality of your *webdav-fileselector*, in
+principle by sending the WebDAV credentials and receiving the
+directory list from the WebDAV server. The easiest way to achieve that
+for the external developer is to implement the
+*/src/views/client.blade.php* (from this package) in his own web
+application. If the developers website is not a Laravel page, then the
+Laravel parts, which are only the "{{" and the "}}" have to be
+adapted. Further, the file has to be renamed to e.g. client.html. Now
+look at the beginning of the *client.blade.php* and make sure that you
+can load all needed CSS and JavaScript. That means, change Laravel
+syntax to normal HTML. Probably you have also to adapt the
+paths. However, all CSS and JavaScript loaded here is included in the
+*webdav-fileselector* package. Now look at the form and adapt the
+*value={{ ... }}* parts. Either leave them empty or populate them by
+your own methods. At the bottom of the *client.blade.php* file you
+will find a small JavaScript part, which can be removed or has to be
+adapted, if automatization (see above) will be used.
+
+The client is now ready for production at the external website, but
+now the connection to your *webdav-fileselector* API has to be
+realized. Nothing easier than that. So you have simply to edit the
+*/src/js/webdav-fileselector.js* file. Change the *url* entry from the
+AJAX call:
+
+``` javascript
+function getb2drop_ajax(data) {
+   $.ajax({
+   type: "POST",
+   url: proxy + '/webdav-fileselector',
+   ...
+
+```
+
+to your service at the public server, e.g.:
+
+``` javascript
+function getb2drop_ajax(data) {
+   $.ajax({
+   type: "POST",
+   url: 'https://example.com/webdav-fileselector',
+   ...
+
+```
+
