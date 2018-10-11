@@ -218,7 +218,7 @@ checking nodes. Use this functionality for your needs.
 It is possible to jump over the input form in the client by
 automatically populating the fields and triggering the button. To this
 the *.env* file in your project's root folder and the */conf/app.php*
-file have to be edited. Add the webdav credentials to your *.env*:
+file have to be edited. Add the WebDAV credentials to your *.env*:
 
 ``` php
 ...
@@ -247,6 +247,21 @@ populated. If the *webdav_auto* variable is set to *true*, the client
 form will be skipped and the connection to the WebDAV server will
 automatically be established.
 
+
+## Multi-user application
+
+If you have a multi-user application you might want to retrieve the
+WebDAV directory for every logged in user dynamically and not using
+the static env variables. To this you can simply define the session variables:
+
+``` php
+$webdav_credentials = (object) array("username" => "123xyz", "password" => "HGfr-kJhG-UZhg", "url" => "https://b2drop.eudat.eu/remote.php/webdav/");
+session(['webdav_fileselector' => $webdav_credentials]);
+
+``` 
+
+before calling the *webdav-fileselector*. Note that it is
+important to use exactly the names *webdav_fileselector* of the session variable and *username*, *password*, *url* for the array.
 
 
 ## External usage

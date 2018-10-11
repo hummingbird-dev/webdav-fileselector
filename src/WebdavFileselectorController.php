@@ -10,8 +10,12 @@ use App\Http\Requests;
 class WebdavFileselectorController extends Controller
 {
 
-    public function get()
+    public function get(Request $request)
     {
+
+        //flush session for testing
+        //$request->session()->flush();
+
         //load Environment Variable as Proxy if $docker=true in .env
         //edit the name of the Environment Variable
         //here the name is WEBODV_PATH
@@ -22,12 +26,22 @@ class WebdavFileselectorController extends Controller
         }
         /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        
-        //include your webdav credentials in .env and /conf/app.php
-        $username = config("app.webdav_username");
-        $password = config("app.webdav_password");
-        $url = config("app.webdav_url");
-
+        //get webdav credential from session
+        if ($request->session()->has('webdav_fileselector')) {
+            $webdav_credentials = session('webdav_fileselector');
+            Log::info(print_r($webdav_credentials,1));
+            $username = $webdav_credentials->username;
+            $password = $webdav_credentials->password;
+            $url = $webdav_credentials->url;
+            Log::info("using session");
+        } else {
+            //include your webdav credentials in .env and /conf/app.php
+            $username = config("app.webdav_username");
+            $password = config("app.webdav_password");
+            $url = config("app.webdav_url");
+            Log::info("using env");
+        }
+        //if true, jump over html form
         $webdav_auto = config("app.webdav_auto");
         
         //this is for development
