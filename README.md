@@ -330,7 +330,7 @@ getb2drop_ajax(data);
 The result is then shown in your HTML.
 
 
-### Bare-bones
+### Bare-bones AJAX
 
 Finally a running *webdav-fileselector* on a public server can be
 queried by a minimal HTTP POST request. In your external website you
@@ -372,4 +372,30 @@ The response is the users WebDAV directory structure formatted to be usable with
 <li data-id="/remote.php/webdav/Photos/Squirrel.jpg">--Squirrel.jpg</li>
 </div>
 ```
+
+### Bare-bones HTML form
+
+Of course you can use a simple HTML form to query the service:
+
+``` html
+<!doctype html>
+<html>
+    <body>
+	<form method="POST" action="http://localhost:8000/webdav-fileselector">
+	    Username:<br>
+	    <input type="text" name="username" value="">
+	    <br>
+	    Password:<br>
+	    <input type="password" name="password" value="">
+	    <br>
+	    URL:<br>
+	    <input id="url" type="text" name="url" value="">
+	    <br><br>
+	    <input type="submit" value="Submit">
+	</form>
+    </body>
+</html>
+
+```
+
 
