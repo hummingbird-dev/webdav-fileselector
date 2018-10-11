@@ -12,7 +12,6 @@ class WebdavFileselectorController extends Controller
 
     public function get(Request $request)
     {
-
         //flush session for testing
         //$request->session()->flush();
 

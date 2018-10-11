@@ -255,13 +255,18 @@ WebDAV directory for every logged in user dynamically and not using
 the static env variables. To this you can simply define the session variables:
 
 ``` php
-$webdav_credentials = (object) array("username" => "123xyz", "password" => "HGfr-kJhG-UZhg", "url" => "https://b2drop.eudat.eu/remote.php/webdav/");
+$webdav_credentials = (object) array(
+   "username" => "123xyz", 
+   "password" => "HGfr-kJhG-UZhg", 
+   "url" => "https://b2drop.eudat.eu/remote.php/webdav/"
+);
 session(['webdav_fileselector' => $webdav_credentials]);
 
 ``` 
 
 before calling the *webdav-fileselector*. Note that it is
 important to use exactly the names *webdav_fileselector* of the session variable and *username*, *password*, *url* for the array.
+
 
 
 ## External usage
