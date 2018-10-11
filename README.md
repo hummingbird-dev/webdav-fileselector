@@ -399,3 +399,12 @@ Of course you can use a simple HTML form to query the service:
 ```
 
 
+### Bare-bones cURL
+
+Another minimal option is using cURL:
+
+``` shell
+curl -X POST "http://localhost:8000/webdav-fileselector" -H "Content-Type: application/x-www-form-urlencoded" -d "username=123xyz&password=juzH-UHZt-OIkj&url=https://b2drop.eudat.eu/remote.php/webdav/"
+
+```
+
