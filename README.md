@@ -8,6 +8,8 @@ A Laravel package for showing and selecting files and folders of a WebDAV server
 - Use WebDAV API: *propfind*
 - No mounting
 - Fast
+- Supports multi-user
+- Supports external usage as API
 - Provides a sophisticated client template using the [hummingbird-treeview](https://github.com/hummingbird-dev/hummingbird-treeview) package
 - Display files and folders in a hierarchical tree structure
 - Different options can be enabled / disabled, e.g. 
