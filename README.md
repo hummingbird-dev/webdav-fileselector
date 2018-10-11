@@ -1,6 +1,6 @@
 # webdav-fileselector
 
-A Laravel package for showing and selecting files and folders of a WebDAV server. (Can be used without Laravel with some modifications)
+A Laravel package for showing and selecting files and folders of a WebDAV server. (Client usage is possible without Laravel.)
 
 ## Features
 
