@@ -134,14 +134,21 @@ commented functions, which can be uncommented for usage.
 
 The full paths of the selected files are stored in the *data-id* of
 each treeview node. Thus if you want to download the files from the
-WebDAV server you need these paths, which are available in the *Paths* array of this function:
+WebDAV server you need these paths, which are available in the
+*List.dataid* array of the function below. The names of the files and
+folders are stored in *List.text* and are appended to the *#selection*
+DOM element.
 
 ``` javascript
+var List = {"id" : [], "dataid" : [], "text" : []};
 $("#treeview").on("CheckUncheckDone", function(){
-   var Paths = [];
-   $("#treeview").hummingbird("getChecked",{attr:"data-id",list:Paths,onlyEndNodes:true});
-   console.log(Paths)
+   List = {"id" : [], "dataid" : [], "text" : []};
+   $("#treeview").hummingbird("getChecked",{list:List,onlyEndNodes:true});
+   $("#selection").html(List.text.join("<br>"));
+   //the full paths of the selected files are in the array List.dataid
+   //console.log("Full WebDAV paths of the selected files: " + List.dataid)
 });
+
 
 ```
 
@@ -159,20 +166,27 @@ $("#treeview").hummingbird();
 
 ```
 
-Then we need to uncheck the old selection after every new selection:
+Then we need to uncheck the old selection after every new
+selection. Thus we need to extend the function from above to:
 
 ``` javascript
-var Ids = [];
+var List = {"id" : [], "dataid" : [], "text" : []};
 $("#treeview").on("CheckUncheckDone", function(){
-   //uncheck old selection
-   if (Ids != "") {
-      $.each(Ids, function(i,e) {
-         $("#treeview").hummingbird("uncheckNode",{attr:"id",name: '"' + e + '"',collapseChildren:false});
+//------------------get ids and uncheck old selection---------------//
+//------------------to restrict selection to one item---------------//
+//------------------use the "checkboxesGroups" option above!--------//
+   if (List.id != "") {
+      $.each(List.id, function(i,e) {
+ 	     $("#treeview").hummingbird("uncheckNode",{attr:"id",name: '"' + e + '"',collapseChildren:false});
       });
    }
-
-   Ids = [];
-   $("#treeview").hummingbird("getChecked",{attr:"id",list:Ids,onlyEndNodes:true});
+//------------------------------------------------------------------//
+//------------------------------------------------------------------//
+List = {"id" : [], "dataid" : [], "text" : []};
+$("#treeview").hummingbird("getChecked",{list:List,onlyEndNodes:true});
+$("#selection").html(List.text.join("<br>"));
+//the full paths of the selected files are in the array List.dataid
+//console.log("Full WebDAV paths of the selected files: " + List.dataid)
 });
 
 ```

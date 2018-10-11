@@ -34,66 +34,50 @@ $(document).ready(function() {
 	    $("#waiting_anim").hide();	     
 	    $(".result").show();
 	    $("#result").html(result.join(" "));
+	    //---------------------------------------------------------------------------------------------------//
+	    //-----------------------------load the hummingbird-treeview.js--------------------------------------//
+	    //---------------------------------------------------------------------------------------------------//
 	    $.getScript(proxy + '/js/webdav-fileselector-js/hummingbird-treeview.js').done(function(){
 		$(document).ready(function() {
-		    //define symbols for the groups
+		    //apply options for the treeview
+		    //define symbols for the folders
 		    $.fn.hummingbird.defaults.collapsedSymbol= "fa-folder";
 		    $.fn.hummingbird.defaults.expandedSymbol= "fa-folder-open";
 
-		    //-------------------disable checking of whole groups------------------------//
+		    //-------------------disable checking of whole folders/groups------------------------//
 		    //$.fn.hummingbird.defaults.checkboxesGroups= "disabled";
-		    //-------------------disable checking of whole groups------------------------//
+		    //-------------------disable checking of whole folders/groups------------------------//
 
-		    //initialization
+		    //initialization of the treeview
 		    $("#treeview").hummingbird();
-		    //get checked
+		    //get checked items
+		    var List = {"id" : [], "dataid" : [], "text" : []};
 		    $("#treeview").on("CheckUncheckDone", function(){
-			var List = [];
-			$("#treeview").hummingbird("getChecked",{attr:"text",list:List,onlyEndNodes:true});
-			$("#selection").html(List.join("<br>"));
+			//------------------get ids and uncheck old selection---------------//
+			//------------------to restrict selection to one item---------------//
+			//------------------use the "checkboxesGroups" option above!--------//
+			// if (List.id != "") {
+			//     $.each(List.id, function(i,e) {
+			// 	$("#treeview").hummingbird("uncheckNode",{attr:"id",name: '"' + e + '"',collapseChildren:false});
+			//     });
+			// }
+			//------------------------------------------------------------------//
+			//------------------------------------------------------------------//
+			List = {"id" : [], "dataid" : [], "text" : []};
+			$("#treeview").hummingbird("getChecked",{list:List,onlyEndNodes:true});
+			$("#selection").html(List.text.join("<br>"));
+			//the full paths of the selected files are in the array List.dataid
+			//console.log("Full WebDAV paths of the selected files: " + List.dataid)
 		    });
-		    //search
+		    //search functionality
 		    $("#treeview").hummingbird("search",{treeview_container:"treeview_container", search_input:"search_input", search_output:"search_output", search_button:"search_button", scrollOffset:-515, onlyEndNodes:false});
 
 
 		    
 
 		    //-------------------###################################----------------------//
-		    //-------------------use optional treeview functionality----------------------//
+		    //-------------------use more treeview functionality----------------------//
 		    //-------------------###################################----------------------//
-
-		    
-
-		    //------------------get paths---------------------------------------//
-		    // $("#treeview").on("CheckUncheckDone", function(){
-		    // 	var Paths = [];
-		    // 	$("#treeview").hummingbird("getChecked",{attr:"data-id",list:Paths,onlyEndNodes:true});
-		    // 	console.log(Paths)
-		    // });
-		    //------------------get paths---------------------------------------//
-
-
-
-		    
-		    //------------------get ids and uncheck old selection---------------//
-		    //------------------to restrict selection to one item---------------//
-		    //------------------use the "checkboxesGroups" option above!--------//
-		    // var Ids = [];
-		    // $("#treeview").on("CheckUncheckDone", function(){
-		    // 	//uncheck old selection
-		    // 	if (Ids != "") {
-		    // 	    $.each(Ids, function(i,e) {
-		    // 		$("#treeview").hummingbird("uncheckNode",{attr:"id",name: '"' + e + '"',collapseChildren:false});
-		    // 	    });
-		    // 	}
-			
-		    // 	Ids = [];
-		    // 	$("#treeview").hummingbird("getChecked",{attr:"id",list:Ids,onlyEndNodes:true});
-		    // });
-		    //------------------get ids and uncheck old selection---------------//
-
-			
-
 
 		    
 		    //------------------filtering---------------------------------------//
