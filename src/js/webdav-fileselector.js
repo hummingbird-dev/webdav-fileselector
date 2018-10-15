@@ -13,7 +13,7 @@ $(document).ready(function() {
     function getb2drop_ajax(data) {
  	$.ajax({
  	    type: "POST",
- 	    url: proxy + '/webdav-fileselector',
+ 	    url: url_to_webdav_fileselector_post,
  	    data: data,
  	    dataType: "json",
  	    func: "getb2drop_complete",                                 
@@ -37,7 +37,8 @@ $(document).ready(function() {
 	    //---------------------------------------------------------------------------------------------------//
 	    //-----------------------------load the hummingbird-treeview.js--------------------------------------//
 	    //---------------------------------------------------------------------------------------------------//
-	    $.getScript(proxy + '/js/webdav-fileselector-js/hummingbird-treeview.js').done(function(){
+	    console.log(url_to_treeview)
+	    $.getScript(url_to_treeview).done(function(){
 		$(document).ready(function() {
 		    //apply options for the treeview
 		    //define symbols for the folders
