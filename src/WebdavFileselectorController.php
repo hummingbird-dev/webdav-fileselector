@@ -56,10 +56,12 @@ class WebdavFileselectorController extends Controller
     {
 
         $webdav_access = config("app.webdav_access");
-        if ($webdav_access == "all") {
-            header("Access-Control-Allow-Origin: *");
-        } else {
-            header("Access-Control-Allow-Origin: " . $webdav_access); 
+        if ($webdav_access) {
+            if ($webdav_access == "all") {
+                header("Access-Control-Allow-Origin: *");
+            } else {
+                header("Access-Control-Allow-Origin: " . $webdav_access); 
+            }
         }
 
         $b2drop_username = $request->username;
