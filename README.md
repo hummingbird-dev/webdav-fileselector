@@ -363,12 +363,13 @@ Now, add the env helper to your */conf/app.php*:
 
 ``` php
 ...
-'webdav_access' => env('webdav_access', 'all'),
+'webdav_access' => env('webdav_access', false),
 ...
 
 ```
 
-with "all" as default value.
+with *false* as default value, which means that the page is prevented
+by the same-origin policy and access from other external pages is not allowed.
 
 
 
