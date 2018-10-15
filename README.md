@@ -409,7 +409,7 @@ var data = {"username" : your_webdav_user_name, "password" : your_webdav_passwor
 
 $.ajax({
    type: "POST",
-   url: 'https://example.com/webdav-fileselector',
+   url: 'https://your_website.com/webdav-fileselector',
    data: data,
    dataType: "json",
    func: "getb2drop_complete",                                 
