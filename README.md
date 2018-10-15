@@ -340,18 +340,35 @@ $(document).ajaxComplete(function(e,xhr,settings){
 
 Finally make sure that the external page is allowed to access your
 *webdav-fileselector* by setting the appropriate header in the Laravel
-controller */src/WebdavFileselectorController.php*:
+controller. This can be controlled via the *.env* in your project's root.
+Set 
 
 ``` php
-header("Access-Control-Allow-Origin: *"); 
+...
+webdav_access = all
+...
 
 ```
+
 to allow all pages access or a single page:
 
 ``` php
-header("Access-Control-Allow-Origin: https://www.external_page.com"); 
+...
+webdav_access = https://www.external.com
+...
 
 ```
+
+Now, add the env helper to your */conf/app.php*:
+
+``` php
+...
+'webdav_access' => env('webdav_access', 'all'),
+...
+
+```
+
+with "all" as default value.
 
 
 

@@ -54,6 +54,14 @@ class WebdavFileselectorController extends Controller
     
     public function post(Request $request)
     {
+
+        $webdav_access = config("app.webdav_access");
+        if ($webdav_access == "all") {
+            header("Access-Control-Allow-Origin: *");
+        } else {
+            header("Access-Control-Allow-Origin: " . $webdav_access); 
+        }
+
         $b2drop_username = $request->username;
         $b2drop_password = $request->password;
         $b2drop_url = $request->url;
@@ -66,7 +74,8 @@ class WebdavFileselectorController extends Controller
         );
 
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, 'https://b2drop.eudat.eu/remote.php/webdav/');
+            curl_setopt($curl, CURLOPT_URL, $b2drop_url);
+            //curl_setopt($curl, CURLOPT_URL, 'https://b2drop.eudat.eu/remote.php/webdav/');
             //curl_setopt($curl, CURLOPT_URL, 'https://b2drop.eudat.eu/remote.php/webdav/data.dat');
 
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PROPFIND" );
