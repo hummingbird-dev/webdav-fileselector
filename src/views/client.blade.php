@@ -8,25 +8,25 @@
         <title>webdav-fileselector</title>
 
 	<!-- Font Awesome-->
-	<link rel="stylesheet" href="{{ $proxy . "/css/webdav-fileselector-css/font-awesome-custom/web-fonts-with-css/css/fontawesome-all.min.css" }}">
+	<link rel="stylesheet" href="{{ url( $proxy . "/css/webdav-fileselector-css/font-awesome-custom/web-fonts-with-css/css/fontawesome-all.min.css" ) }}">
 	
 	<!-- Bootstrap CSS-->
-	<link rel="stylesheet" href="{{ $proxy . "/css/webdav-fileselector-css/bootstrap-3.3.7-dist/css/bootstrap.min.css" }}">
+	<link rel="stylesheet" href="{{  url( $proxy . "/css/webdav-fileselector-css/bootstrap-3.3.7-dist/css/bootstrap.min.css"  ) }}">
 	
 	<!-- jQuery -->
-	<script src="{{ $proxy . "/js/webdav-fileselector-js/jquery-3.3.1.min.js" }}"></script>
+	<script src="{{  url( $proxy . "/js/webdav-fileselector-js/jquery-3.3.1.min.js"  ) }}"></script>
 
 	<!-- Bootstrap JS -->
-	<script src="{{ $proxy . "/css/webdav-fileselector-css/bootstrap-3.3.7-dist/js/bootstrap.min.js" }}"></script>
+	<script src="{{  url( $proxy . "/css/webdav-fileselector-css/bootstrap-3.3.7-dist/js/bootstrap.min.js"  ) }}"></script>
 
 	<!-- hummingbird-treeview -->
-	<link rel="stylesheet" href="{{ $proxy . "/css/webdav-fileselector-css/hummingbird-treeview.css" }}">
+	<link rel="stylesheet" href="{{  url( $proxy . "/css/webdav-fileselector-css/hummingbird-treeview.css"  ) }}">
 
 	<!-- custom css -->
-	<link rel="stylesheet" href="{{ $proxy . "/css/webdav-fileselector-css/webdav-fileselector.css" }}">
+	<link rel="stylesheet" href="{{  url( $proxy . "/css/webdav-fileselector-css/webdav-fileselector.css"  ) }}">
 
 	<!-- custom js -->
-	<script src="{{ $proxy . "/js/webdav-fileselector-js/webdav-fileselector.js" }}"></script>
+	<script src="{{  url( $proxy . "/js/webdav-fileselector-js/webdav-fileselector.js"  ) }}"></script>
 
 	
 	
@@ -155,8 +155,9 @@
 			    
 	</div>
 
+
 	@if ($webdav_auto)
-	    <script>
+	    <script>	     
 	     $(document).ready(function() {
 		 var webdav_auto = {{ $webdav_auto }};
 		 if (webdav_auto) {

@@ -46,6 +46,12 @@ class WebdavFileselectorController extends Controller
         //this is for development
         //return view('webdav-fileselector::client',compact('proxy','username','password','url'));
 
+        //make url to hummingbird-treeview available for JS
+        echo '<script>' . 'var url_to_treeview="' . url( $proxy . '/js/webdav-fileselector-js/hummingbird-treeview.js')  . '"</script>';
+
+        //url_to_post
+        echo '<script>' . 'var url_to_webdav_fileselector_post="' . url( $proxy . '/webdav-fileselector')  . '"</script>';
+        
         //this is for production, so that the user can use the template
         return view('hummingbird-dev.webdav-fileselector.client',compact('proxy','username','password','url','webdav_auto'));
     }
