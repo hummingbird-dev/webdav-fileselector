@@ -27,7 +27,7 @@
 
 
 	    var converter = $(this);
-	    console.log(converter)
+	    //console.log(converter)
 	    
 	    //hide simple treeview structure
 	    converter.hide();
@@ -366,11 +366,58 @@
 	    });
 	}
 
+
+	//addNode
+	if (methodName == "addNode") {
+	    return this.each(function(){
+		var pos = args[1].pos;   //before or after
+		var anchor_attr = args[1].anchor_attr; //the anchor node
+		var anchor_name = args[1].anchor_name; //the anchor node
+		var text = args[1].text;
+		var the_id = args[1].the_id; 
+		var data_id = args[1].data_id;
+		if (typeof args[1].end_node !== 'undefined') {
+		    var end_node = args[1].end_node;
+		} else {
+		    var end_node = true;
+		}
+		if (typeof args[1].children !== 'undefined') {
+		    var children = args[1].children;
+		} else {
+		    var children = false;
+		}
+		$.fn.hummingbird.addNode($(this),pos,anchor_attr,anchor_name,text,the_id,data_id,end_node,children,options.collapsedSymbol);
+	    });
+	}
+
+
+	//removeNode
+	if (methodName == "removeNode") {
+	    return this.each(function(){
+		var name = args[1].name;
+		var attr = args[1].attr;
+		$.fn.hummingbird.removeNode($(this),attr,name);
+	    });
+	}
+
+
+	
 	//filter
 	if (methodName == "filter") {
 	    return this.each(function(){
 		var str = args[1].str;
-		$.fn.hummingbird.filter($(this),str);
+		if (typeof args[1].box_disable !== 'undefined') {
+		    var box_disable = args[1].box_disable;
+		} else {
+		    var box_disable = false;
+		}
+		if (typeof args[1].filterChildren !== 'undefined') {
+		    var filterChildren = args[1].filterChildren;
+		} else {
+		    var filterChildren = true;
+		}
+		var onlyEndNodes = args[1].onlyEndNodes;
+		$.fn.hummingbird.filter($(this),str,box_disable,onlyEndNodes,filterChildren);
 	    });
 	}
 	
@@ -506,32 +553,115 @@
 
     //-------------------checkNode---------------//
     $.fn.hummingbird.checkNode = function(tree,attr,name){
-	tree.find('input:checkbox:not(:checked)[' + attr + '=' + name + ']').prop("indeterminate",false).trigger("click");
+	if (attr == "text") {
+	    name = name.trim();
+	    var that_nodes = tree.find('input:checkbox:not(:checked)').prop("indeterminate",false).parent('label:contains(' + name + ')');
+	    //console.log(that_nodes)
+	    that_nodes.children('input:checkbox').trigger("click");
+	} else {
+	    tree.find('input:checkbox:not(:checked)[' + attr + '=' + name + ']').prop("indeterminate",false).trigger("click");
+	}
     };
 
     //-------------------uncheckNode---------------//
     $.fn.hummingbird.uncheckNode = function(tree,attr,name){
-	tree.find('input:checkbox:checked[' + attr + '=' + name + ']').prop("indeterminate",false).trigger("click");
+	if (attr == "text") {
+	    name = name.trim();
+	    var that_nodes = tree.find('input:checkbox:checked').prop("indeterminate",false).parent('label:contains(' + name + ')');
+	    //console.log(that_nodes)
+	    that_nodes.children('input:checkbox').trigger("click");
+	} else {
+	    tree.find('input:checkbox:checked[' + attr + '=' + name + ']').prop("indeterminate",false).trigger("click");
+	}
+    };
+
+    //-------------------removeNode---------------//
+    $.fn.hummingbird.removeNode = function(tree,attr,name){
+	if (attr == "text") {
+	    name = name.trim();
+	    tree.find('input:checkbox').parent('label:contains(' + name + ')').parent('li').remove();
+	} else {
+	    tree.find('input:checkbox[' + attr + '=' + name + ']').parent("label").parent('li').remove();
+	}
+    };
+
+    //-------------------addNode---------------//
+    $.fn.hummingbird.addNode = function(tree,pos,anchor_attr,anchor_name,text,the_id,data_id,end_node,children,collapsedSymbol){
+	//find the node
+	if (anchor_attr == "text") {
+	    anchor_name = anchor_name.trim();
+	    var that_node = tree.find('input:checkbox').parent('label:contains(' + anchor_name + ')').parent("li");
+	} else {
+	    var that_node = tree.find('input:checkbox[' + anchor_attr + '=' + anchor_name + ']').parent("label").parent("li");
+	}
+	//
+	//console.log(that_node)
+	//
+	if (end_node) {
+	    var Xclass = "hummingbird-end-node";
+	    if (pos == "before") {
+		that_node.before('<li><label><input class="'+ Xclass  +'" id="'+ the_id  +'" data-id="'+ data_id  +'" type="checkbox"> '+ text  +'</label></li>')
+	    }
+	    if (pos == "after") {
+		that_node.after('<li><label><input class="'+ Xclass  +'" id="'+ the_id  +'" data-id="'+ data_id  +'" type="checkbox"> '+ text  +'</label></li>')
+	    }
+	} else {
+	    var Xclass = "";
+	    //create subtree
+	    var subtree = "";
+	    $.each(children, function(i,e){
+		console.log(e)
+		subtree = subtree + '<li><label><input class="'+ 'hummingbird-end-node'  +'" id="'+ e.id  +'" data-id="'+ e.data_id  +'" type="checkbox"> '+ e.text  +'</label></li>'
+	    });
+	    if (pos == "before") {		
+		that_node.before('<li>'+"\n"+'<i class="fa '+ collapsedSymbol  +'"></i>'+ "\n" +'<label>'+"\n"+'<input class="'+ Xclass  +'" id="'+ the_id  +'" data-id="'+ data_id  +'" type="checkbox"> '+ text  +'</label>'+ "\n" +'<ul>'+ "\n" + subtree  +'</ul>'+"\n"+'</li>')
+	    }
+	    if (pos == "after") {
+		that_node.after('<li>'+"\n"+'<i class="fa '+ collapsedSymbol  +'"></i>'+ "\n" +'<label>'+"\n"+'<input class="'+ Xclass  +'" id="'+ the_id  +'" data-id="'+ data_id  +'" type="checkbox"> '+ text  +'</label>'+ "\n" +'<ul>'+ "\n" + subtree  +'</ul>'+"\n"+'</li>')
+	    }	    
+	}
+	//
     };
 
     //-------------------filter--------------------//
-    $.fn.hummingbird.filter = function(tree,str){
-	var entries = tree.find('input:checkbox.hummingbird-end-node');
+    $.fn.hummingbird.filter = function(tree,str,box_disable,onlyEndNodes,filterChildren){
+	if (onlyEndNodes) {
+	    var entries = tree.find('input:checkbox.hummingbird-end-node');
+	} else {
+	    var entries = tree.find('input:checkbox');
+	}
 	var re = new RegExp(str, 'g');
 	$.each(entries, function(){
-	    var entry = $(this).parent("label").parent("li").text();
-	    if (entry.match(re) == null) {
-	    	//console.log(entry + " contains " + str)
-		$(this).parent("label").parent("li").remove();
-	    } 
+	    var entry = $(this).parent("label").text();
+	    //if we have a match we add class to all parent li's
+	    if (entry.match(re)) {		
+		$(this).parents("li").addClass("noFilter");
+		if (filterChildren == false) {
+		    $(this).parent("label").parent("li").find("li").addClass("noFilter");
+		    //console.log($(this).parent("label").parent("li").find("li"))
+		}
+	    }
 	});
+	//now remove or disable all, which do not match
+	if (box_disable) {
+	    tree.find("li").not('.noFilter').prop("disabled",true);
+	} else {
+	    tree.find("li").not('.noFilter').remove();
+	}
     };
     
 
     
     //-------------------disableNode---------------//
     $.fn.hummingbird.disableNode = function(tree,attr,name,state,disableChildren){
-	var this_checkbox = tree.find('input:checkbox:not(:disabled)[' + attr + '=' + name + ']');
+	if (attr == "text") {
+	    name = name.trim();
+	    var that_nodes = tree.find('input:checkbox:not(:disabled)').parent('label:contains(' + name + ')');
+	    //console.log(that_nodes)
+	    var this_checkbox = that_nodes.children('input:checkbox');
+	} else {
+	    var this_checkbox = tree.find('input:checkbox:not(:disabled)[' + attr + '=' + name + ']');
+	}
 	//for a disabled unchecked node, set node checked and then trigger a click to uncheck
 	//for a disabled checked node, set node unchecked and then trigger a click to check
 	this_checkbox.prop("checked",state === false);
@@ -548,13 +678,21 @@
 
     //-------------------enableNode---------------//
     $.fn.hummingbird.enableNode = function(tree,attr,name,state,enableChildren){
-	var this_checkbox = tree.find('input:checkbox:disabled[' + attr + '=' + name + ']');
-
+	var this_checkbox = {};
+	if (attr == "text") {
+	    name = name.trim();
+	    var that_nodes = tree.find('input:checkbox:disabled').parent('label:contains(' + name + ')');
+	    //console.log(that_nodes)
+	    var this_checkbox = that_nodes.children('input:checkbox');
+	} else {
+	    this_checkbox = tree.find('input:checkbox:disabled[' + attr + '=' + name + ']');
+	}
+	//console.log(this_checkbox)
 	//a checkbox cannot be enabled if all children are disabled AND enableChildren is false
 	//get children checkboxes which are not disabled
 	var children_not_disabled_sum= this_checkbox.parent("label").next("ul").children("li").children("label").children("input:checkbox:not(:disabled)").length;
 	if (children_not_disabled_sum == 0 && enableChildren == false) {
-	    console.log("NOW!!!!!!!!!!!!!!!!!!!!!")
+	    //console.log("NOW!!!!!!!!!!!!!!!!!!!!!")
 	    return;
 	}
 	//the state where a parent is enabled and all children are disabled must be forbidden

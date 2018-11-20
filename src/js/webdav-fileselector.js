@@ -37,7 +37,6 @@ $(document).ready(function() {
 	    //---------------------------------------------------------------------------------------------------//
 	    //-----------------------------load the hummingbird-treeview.js--------------------------------------//
 	    //---------------------------------------------------------------------------------------------------//
-	    console.log(url_to_treeview)
 	    $.getScript(url_to_treeview).done(function(){
 		$(document).ready(function() {
 		    //apply options for the treeview
