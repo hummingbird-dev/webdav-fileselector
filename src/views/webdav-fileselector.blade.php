@@ -38,7 +38,6 @@
     </head>
     <body>
 	<div class="container">
-	    <br>
 	    <div class="row ">
 		<div class="col-sm-3 text-center">
 		</div>
@@ -58,6 +57,7 @@
 		    </div>
 		    @endif
 		    <form id="form_file_selector" method="POST" action="">
+			{{ csrf_field() }}
 			<input type="hidden" name="b2drop_username" value="{{ $xparas->b2drop_username }}">
 			<input type="hidden" name="b2drop_password" value="{{ $xparas->b2drop_password }}">
 			<input type="hidden" name="b2drop_url" value="{{ $xparas->b2drop_url }}">
