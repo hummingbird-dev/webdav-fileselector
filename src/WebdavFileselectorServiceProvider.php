@@ -22,14 +22,19 @@ class WebdavFileselectorServiceProvider extends ServiceProvider
 
         //copy js
         $this->publishes([
-            __DIR__.'/js' => public_path('js/webdav-fileselector-js'),
+            __DIR__.'/js' => public_path('hummingbird-dev/webdav-fileselector'),
         ]);
 
         //copy css
         $this->publishes([
-            __DIR__.'/css' => public_path('css/webdav-fileselector-css'),
+            __DIR__.'/css' => public_path('hummingbird-dev/webdav-fileselector'),
         ]);
-        
+
+        //copy vendor
+        $this->publishes([
+            __DIR__.'/vendor' => public_path('hummingbird-dev/webdav-fileselector'),
+        ]);
+
     }
 
     /**

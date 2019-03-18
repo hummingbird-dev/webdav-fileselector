@@ -12,48 +12,60 @@ class WebdavFileselectorController extends Controller
 
     public function get(Request $request)
     {
-        //flush session for testing
-        //$request->session()->flush();
 
-        //load Environment Variable as Proxy if $docker=true in .env
-        //edit the name of the Environment Variable
-        //here the name is WEBODV_PATH
-        $docker = config("app.docker");
-        $proxy = "";
-        if ($docker) {
-            $proxy = shell_exec('if [ "" == "$WEBODV_PATH" ]; then printf ""; else  printf $WEBODV_PATH; fi');
+        Log::info("webdav-fileselector get");
+
+        //if this function is called via POST
+        //the form can be adjusted
+        //validate
+        $this->validate($request, [
+            'b2drop_username' => 'nullable|string',
+            'b2drop_password' => 'nullable|string',
+            'b2drop_url' => 'nullable|string',
+            'select_only_one_item' => 'nullable|boolean',
+            'show_only_parent_folder' => 'nullable|boolean',
+            'disable_folder_checking' => 'nullable|boolean',
+            'disable_root_node' => 'nullable|boolean',
+            'getChecked_onlyEndNodes' => 'nullable|boolean',
+            'filter' => 'nullable|string',
+            'button_name' => 'nullable|string',
+            'fileselector_height' => 'nullable|string',
+            'minimal_view' => 'nullable|boolean',
+            'jumbotron' => 'nullable|string',
+        ]);
+
+        //set default
+        $xparas = (object) array(
+            'b2drop_username' => "smieruch",
+            'b2drop_password' => "password",
+            'b2drop_url' => "http://localhost:8099/remote.php/webdav/",
+            'select_only_one_item' => '1',
+            'show_only_parent_folder' => '0',
+            'disable_folder_checking' => '1',
+            'disable_root_node' => '0',
+            'getChecked_onlyEndNodes' => '1',
+            'filter' => '',
+            'button_name' => '',
+            'fileselector_height' => '400',
+            'jumbotron' => "jumbotron",
+            'minimal_view' => "0"
+        );
+
+        //set new if request exists
+        $all_request = $request->all();
+        //Log::info("request=".print_r($all_request,1));
+        foreach ($all_request as $para_key => $para_val){
+            Log::info("key=".$para_key."    "."val=".$para_val);
+            if (isset($xparas->$para_key)){
+                $xparas->$para_key = $para_val;
+            }
         }
-        /////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        //get webdav credential from session
-        if ($request->session()->has('webdav_fileselector')) {
-            $webdav_credentials = session('webdav_fileselector');
-            Log::info(print_r($webdav_credentials,1));
-            $username = $webdav_credentials->username;
-            $password = $webdav_credentials->password;
-            $url = $webdav_credentials->url;
-            Log::info("using session");
-        } else {
-            //include your webdav credentials in .env and /conf/app.php
-            $username = config("app.webdav_username");
-            $password = config("app.webdav_password");
-            $url = config("app.webdav_url");
-            Log::info("using env");
-        }
-        //if true, jump over html form
-        $webdav_auto = config("app.webdav_auto");
-        
-        //this is for development
-        //return view('webdav-fileselector::client',compact('proxy','username','password','url'));
 
-        //make url to hummingbird-treeview available for JS
-        echo '<script>' . 'var url_to_treeview="' . url( $proxy . '/js/webdav-fileselector-js/hummingbird-treeview.js')  . '"</script>';
+        return view('hummingbird-dev.webdav-fileselector.webdav-fileselector',compact('xparas'));
 
-        //url_to_post
-        echo '<script>' . 'var url_to_webdav_fileselector_post="' . url( $proxy . '/webdav-fileselector')  . '"</script>';
-        
-        //this is for production, so that the user can use the template
-        return view('hummingbird-dev.webdav-fileselector.client',compact('proxy','username','password','url','webdav_auto'));
+
+
     }
 
 
@@ -61,20 +73,33 @@ class WebdavFileselectorController extends Controller
     public function post(Request $request)
     {
 
-        $webdav_access = config("app.webdav_access");
-        if ($webdav_access) {
-            if ($webdav_access == "all") {
-                header("Access-Control-Allow-Origin: *");
-            } else {
-                header("Access-Control-Allow-Origin: " . $webdav_access); 
-            }
-        }
-
-        $b2drop_username = $request->username;
-        $b2drop_password = $request->password;
-        $b2drop_url = $request->url;
-
+        Log::info("webdav-fileselector post");
+        $fileselector = "post";
         
+
+
+        //header("Access-Control-Allow-Origin: *");
+
+
+        Log::info("Zheight=".session('fileselector_height'));
+        
+        //validate
+        $this->validate($request, [
+            'b2drop_username' => 'required',
+            'b2drop_password' => 'required',
+            'b2drop_url' => 'required',
+            'select_only_one_item' => 'nullable|boolean',
+            'show_only_parent_folder' => 'nullable|boolean',
+            'disable_folder_checking' => 'nullable|boolean',
+            'disable_root_node' => 'nullable|boolean',
+            'getChecked_onlyEndNodes' => 'nullable|boolean',
+            'filter' => 'nullable|string',
+            'button_name' => 'nullable|string',
+            'fileselector_height' => 'nullable|string',
+            'minimal_view' => 'nullable|boolean',
+        ]);
+
+        //curl headers
         $headers = array(
             'Content-Type: text/xml',
             'Depth:infinity'
@@ -82,12 +107,9 @@ class WebdavFileselectorController extends Controller
         );
 
             $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $b2drop_url);
-            //curl_setopt($curl, CURLOPT_URL, 'https://b2drop.eudat.eu/remote.php/webdav/');
-            //curl_setopt($curl, CURLOPT_URL, 'https://b2drop.eudat.eu/remote.php/webdav/data.dat');
-
+            curl_setopt($curl, CURLOPT_URL, $request->b2drop_url);
             curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "PROPFIND" );
-            curl_setopt($curl, CURLOPT_USERPWD, $b2drop_username . ":" . $b2drop_password );
+            curl_setopt($curl, CURLOPT_USERPWD, $request->b2drop_username . ":" . $request->b2drop_password );
             curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             
@@ -98,12 +120,17 @@ class WebdavFileselectorController extends Controller
             //$xml = simplexml_load_file("/var/www/html/Log/xml.xml");
 
 
+            if (!isset($request->fileselector_height)){
+                $height=200;
+            } else {
+                $height=$request->fileselector_height;
+            }
         $data = array(
-            '<div class="hummingbird-treeview-converter" data-height="400px" data-scroll="true">'
+            '<div class="hummingbird-treeview-converter" data-height="' . $height  . 'px" data-scroll="true">'
         );
 
 
-        /* sleep(4); */
+        sleep(4);
 
         $folder_indentation = "";
         $indentation = "";
@@ -164,11 +191,22 @@ class WebdavFileselectorController extends Controller
             
         }
 
-        $data[] = '</div>'; 
+        $data[] = '</div>';
 
-        //log::info(print_r($data,1));
-            
-        echo json_encode($data);
+        $paras = [
+            'select_only_one_item' => $request->select_only_one_item,
+            'disable_folder_checking' => $request->disable_folder_checking,
+            'disable_root_node' => $request->disable_root_node,
+            'getChecked_onlyEndNodes' => $request->getChecked_onlyEndNodes,
+            'filter' => $request->filter,
+            'button_name' => $request->button_name,
+            'minimal_view' => $request->minimal_view,
+        ];
+
+        $all_data = array_merge(['data' => $data],['allparas' => $paras]);
+
+        echo json_encode($all_data);
+
     }
 
 }

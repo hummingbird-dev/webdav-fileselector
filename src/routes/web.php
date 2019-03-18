@@ -2,9 +2,9 @@
 
 //to make the session available use web middleware
 Route::group(['middleware' => ['web']], function () {
-    Route::get('webdav-fileselector', 'hummingbirddev\webdavfileselector\WebdavFileselectorController@get');
+    Route::match(array('GET', 'POST'),'webdav-fileselector-get', 'hummingbirddev\webdavfileselector\WebdavFileselectorController@get');
+    Route::post('webdav-fileselector-post', 'hummingbirddev\webdavfileselector\WebdavFileselectorController@post');
 });
-//don't use web middleware here to avoid CSRF protection
-Route::post('webdav-fileselector', 'hummingbirddev\webdavfileselector\WebdavFileselectorController@post');
+
 
 ?>
