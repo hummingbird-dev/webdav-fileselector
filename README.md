@@ -119,6 +119,8 @@ be edited or an additional POST form on any other page can be used to call the c
 
 ```
 
+## webdav-fileselector as a service
+
 The interesting point here is that this HTML form can be implemented on any other web page. So it's possible
 to provide this service on other web projects. One possibility for integration would be an iframe. That means, placing
 an iframe onto the page:
@@ -136,6 +138,7 @@ and pointing the form to the iframe with the "target" attribute, which means to 
 	...
 ```
 
+## Parameters
 
 Following parameters are mendatory:
 
