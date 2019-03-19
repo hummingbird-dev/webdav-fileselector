@@ -189,7 +189,7 @@ All *values* of these settings are strings, although many behave like boolean *t
   for multiple strings in a "OR" sense. If *value=".jpg|.png|.bmp"* only files are shown containing ".jpg" or ".png" or ".bmp".
   
 - **fileselector_height**
-  This parameter defines the height in px of the "<div>", where the *hummingbird-treeview* is embedded. It is scollable, thus the height
+  This parameter defines the height in px of the ```html <div>```, where the *hummingbird-treeview* is embedded. It is scollable, thus the height
   can be chosen small if needed. Default is *value="400"* pixel.
   
 - **minimal_view** 
