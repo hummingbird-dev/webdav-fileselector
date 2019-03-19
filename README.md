@@ -91,7 +91,7 @@ and navigate to http://localhost:8000/webdav-fileselector-get
 
 You will see the client template, which can be edited at "/resources/views/hummingbird-dev/webdav-fileselector.blade.php".
 
-```
+
 
 Two possibilities exist to include the needed WebDAV credentials and
 to submit optional settings.
