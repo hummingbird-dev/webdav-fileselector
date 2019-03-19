@@ -133,7 +133,7 @@ and pointing the form to the iframe with the "target" attribute, which means to 
 <form method="POST" action="http://localhost:8000/webdav-fileselector-get" target="my_iframe">
 	<input type="hidden" name="b2drop_username" value="smieruch">
 	<input type="hidden" name="b2drop_password" value="password">
-
+	...
 ```
 
 
