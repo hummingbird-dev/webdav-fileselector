@@ -51,11 +51,6 @@ $(document).ready(function() {
 
     $(document).ajaxComplete(function(e,xhr,settings){
     	if (settings.func=="getb2drop_complete") {
-    	    //send event so that the List can be retrieved
-    	    //from an iframe
-    	    $("#continue_button").on("click",function(){
-    		parent.postMessage(List,"*");
-    	    });
     	    var result = JSON.parse(xhr.responseText);
 	    //treeview
 	    $("#treeview_div").html(result.data.join(" "));
@@ -139,8 +134,12 @@ $(document).ready(function() {
     			//if (List.text.toString().match(/.odv/g)) {
     			    //automaticall check the corresponding odv folder
     			    //var folder = List.text.toString().replace('.odv','.Data');
-    			    //$("#treeview").hummingbird("checkNode",{attr:"text",name: folder,collapseChildren:false});
+    			//$("#treeview").hummingbird("checkNode",{attr:"text",name: folder,collapseChildren:false});
     			//}
+			
+			//fire event
+			//console.log("fire")
+			parent.postMessage(List,"*");
     		    });
 
 

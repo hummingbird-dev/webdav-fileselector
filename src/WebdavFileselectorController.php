@@ -28,10 +28,9 @@ class WebdavFileselectorController extends Controller
             'disable_root_node' => 'nullable|boolean',
             'getChecked_onlyEndNodes' => 'nullable|boolean',
             'filter' => 'nullable|string',
-            'button_name' => 'nullable|string',
             'fileselector_height' => 'nullable|string',
             'minimal_view' => 'nullable|boolean',
-            'jumbotron' => 'nullable|string',
+            'jumbotron' => 'nullable|boolean',
         ]);
 
         //set default
@@ -45,9 +44,8 @@ class WebdavFileselectorController extends Controller
             'disable_root_node' => '0',
             'getChecked_onlyEndNodes' => '1',
             'filter' => '',
-            'button_name' => '',
             'fileselector_height' => '400',
-            'jumbotron' => "jumbotron",
+            'jumbotron' => "1",
             'minimal_view' => "0"
         );
 
@@ -59,6 +57,10 @@ class WebdavFileselectorController extends Controller
             if (isset($xparas->$para_key)){
                 $xparas->$para_key = $para_val;
             }
+        }
+
+        if ($xparas->jumbotron){
+            $xparas->jumbotron = "jumbotron";
         }
 
 
@@ -94,7 +96,6 @@ class WebdavFileselectorController extends Controller
             'disable_root_node' => 'nullable|boolean',
             'getChecked_onlyEndNodes' => 'nullable|boolean',
             'filter' => 'nullable|string',
-            'button_name' => 'nullable|string',
             'fileselector_height' => 'nullable|string',
             'minimal_view' => 'nullable|boolean',
         ]);

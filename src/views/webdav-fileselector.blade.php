@@ -67,7 +67,6 @@
 			<input type="hidden" name="disable_root_node" value="{{ $xparas->disable_root_node }}">
 			<input type="hidden" name="getChecked_onlyEndNodes" value="{{ $xparas->getChecked_onlyEndNodes }}">
 			<input type="hidden" name="filter" value="{{ $xparas->filter }}">
-			<input type="hidden" name="button_name" value="{{ $xparas->button_name }}">
 			<input type="hidden" name="fileselector_height" value="{{ $xparas->fileselector_height }}">
 			<input type="hidden" name="minimal_view" value="{{ $xparas->minimal_view }}">
 			<input type="hidden" name="jumbotron" value="{{ $xparas->jumbotron }}">
@@ -97,6 +96,19 @@
 		</div>
 	    </div>
 	</div>
+
+	<script>
+	 window.addEventListener("message",function(e) {
+	     console.log("message event",e);
+	     var key = e.message ? "message" : "data";
+	     data = e[key];
+	     console.log("file_path= " + data.dataid)
+	     console.log("file_id= " + data.id)
+	     console.log("file_text= " + data.text)
+	 },false);
+	</script>
+	
+
     </body>
 </html>
 
